@@ -1,8 +1,6 @@
 package com.cavusoglu.fair;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -12,7 +10,7 @@ public class FairTest {
 	int i = 1;
 
 	@Test
-	public void testGetJsonLdObject() throws Exception, UnidentifiedMonthNameStrike {
+	public void testGetJsonLdObject() throws Exception, UnidentifiedMonthNameStrikeException {
 		Fair fair = new Fair(tuyapExtractor.extractFairName(1), tuyapExtractor
 				.extractDateInterval(1).getStartDate(), tuyapExtractor
 				.extractDateInterval(1).getStartDate(),

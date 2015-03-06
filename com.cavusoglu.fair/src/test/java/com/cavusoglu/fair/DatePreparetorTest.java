@@ -16,7 +16,7 @@ public class DatePreparetorTest {
 	}
 
 	@Test
-	public void testGetRidOfTurkishMonths() throws Exception, UnidentifiedMonthNameStrike {
+	public void testGetRidOfTurkishMonths() throws Exception, UnidentifiedMonthNameStrikeException {
 		DateInterval dateInterval = new DatePreparator()
 				.splitDate("22 - 25 Ocak 2015");
 		new DatePreparator().getRidOfTurkishMonths(dateInterval);
@@ -24,7 +24,7 @@ public class DatePreparetorTest {
 	}
 
 	@Test
-	public void testConvertToIsoFormat() throws Exception, UnidentifiedMonthNameStrike {
+	public void testConvertToIsoFormat() throws Exception, UnidentifiedMonthNameStrikeException {
 		DateInterval splitAndConvertToIso = new DatePreparator()
 				.splitAndConvertToIso("22 - 25 Ocak 2015");
 		String endDate = splitAndConvertToIso.getEndDate();
