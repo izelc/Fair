@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 
 public class DocumentSearcherTest {
@@ -17,7 +18,11 @@ public class DocumentSearcherTest {
 	public void testExtractElementWithCssPAth() throws Exception {
 		DocumentFetcher mock = Mockito.spy(new DocumentFetcher());
 		Document doc = Jsoup.parse(readFile("ExampleTuyap.html"));
-		Mockito.doReturn(doc).when(mock).getDocument();
+		Mockito.doReturn(
+				doc.select("body > span > table > tbody > tr > td > table > tbody > tr:nth-child(4) > td > table > tbody > tr:nth-child(2) > td:nth-child(3) > table > tbody "))
+				.when(mock).getElement();
+		
+	
 
 		String cssPath = "> tr:nth-child(4) > td:nth-child(3) > h5 > b";
 		String date = new DocumentSearcher(mock)

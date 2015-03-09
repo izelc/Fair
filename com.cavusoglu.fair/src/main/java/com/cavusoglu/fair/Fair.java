@@ -3,43 +3,38 @@ package com.cavusoglu.fair;
 import com.google.gson.JsonObject;
 
 public class Fair {
-	private String endDate;
-	private String startDate;
+	private DateInterval dateInterval;
 	private String name;
 	private String place;
 	private String description;
 
-	public Fair(String name, String startDate,String endDate, String place, String description) {
-		this.endDate = endDate;
-		this.startDate=startDate;
+	public Fair(String name, DateInterval dateInterval, String place,
+			String description) {
+		this.dateInterval = dateInterval;
 		this.name = name;
 		this.place = place;
 		this.description = description;
 
 	}
 
-
 	public JsonObject getJsonLdObject() {
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("@context", "http://schema.org");
-		jsonObject.addProperty("@type", "Event");
-		jsonObject.addProperty("startDate", this.startDate);
-		jsonObject.addProperty("endDate", this.endDate);
 		jsonObject.addProperty("name", this.name);
+		jsonObject.addProperty("startDate", this.dateInterval.getStartDate());
+		jsonObject.addProperty("endDate", this.dateInterval.getEndDate());
 		jsonObject.addProperty("description", this.description);
 		jsonObject.addProperty("place", this.place);
+		jsonObject.addProperty("@context", "http://schema.org");
+		jsonObject.addProperty("@type", "Event");
 		return jsonObject;
 
 	}
 
-
 	@Override
 	public String toString() {
-		return "Fair [endDate=" + endDate + ", startDate=" + startDate
-				+ ", name=" + name + ", place=" + place + ", description="
-				+ description + "]";
+		return "Fair [endDate=" + dateInterval.getEndDate() + ", startDate="
+				+ dateInterval.getStartDate() + ", name=" + name + ", place="
+				+ place + ", description=" + description + "]";
 	}
-
-	
 
 }

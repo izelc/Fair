@@ -5,8 +5,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ DatePreparetorTest.class, DocumentSearcherTest.class,
-		FairTest.class, TuyapCalendarTest.class, TuyapExtractorTest.class })
+@SuiteClasses({ DocumentSearcherTest.class,
+		FairTest.class, ExtractorTest.class })
 public class AllTests {
 
 }

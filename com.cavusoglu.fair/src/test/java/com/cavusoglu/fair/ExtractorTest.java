@@ -1,0 +1,95 @@
+package com.cavusoglu.fair;
+
+import static org.junit.Assert.*;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Matchers;
+import org.mockito.Mockito;
+
+public class ExtractorTest {
+
+	private ExtractorTuyap tuyapExtractor;
+
+	@Before
+	public void before() throws IOException {
+		DocumentFetcher mock = Mockito.spy(new DocumentFetcher());
+		Document doc = Jsoup.parse(readFile("ExampleTuyap.html"));
+		Mockito.doReturn(doc.select("body > span > table > tbody > tr > td > table > tbody > tr:nth-child(4) > td > table > tbody > tr:nth-child(2) > td:nth-child(3) > table > tbody")).when(mock).getElement();
+
+		tuyapExtractor = new ExtractorTuyap(mock);
+
+	}
+
+	@Test
+	public void testExtractFairDate1() throws Exception {
+
+		assertEquals("22 - 25 Ocak 2015", tuyapExtractor.findDate(4));
+		assertEquals("", tuyapExtractor.findDate(2));
+	}
+
+	@Test
+	public void testExtractDescription() throws Exception {
+		assertEquals("ÇUKUROVA KİTAP FUARI Çukurova 8. Kitap Fuarı",
+				tuyapExtractor.findDescription(1));
+		assertEquals("", tuyapExtractor.findDescription(54646546));
+
+	}
+
+	@Test
+	public void testExtractFairPlace() throws Exception {
+		assertEquals("Tüyap Adana", tuyapExtractor.findPlace(1));
+		assertEquals("", tuyapExtractor.findPlace(55846));
+	}
+
+	@Test
+	public void testExtractFairName() throws Exception {
+		assertEquals("ÇUKUROVA KİTAP FUARI", tuyapExtractor.findName(1));
+	}
+
+	@Test
+	public void testExtractDateInterval() throws Exception
+			 {
+
+		ExtractorTuyap mockTuyapExtractor = Mockito.spy(tuyapExtractor);
+		Mockito.doReturn("22 - 25 Mart 2015").when(mockTuyapExtractor)
+				.findDate(Matchers.anyInt());
+		
+
+	}
+	
+
+	/**
+	 * Reads file from given path
+	 * 
+	 * @param path
+	 *            file path
+	 * @return file as string text
+	 * @throws IOException
+	 */
+	private String readFile(String path) throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(path));
+		String everything;
+		try {
+			StringBuilder sb = new StringBuilder();
+			String line = br.readLine();
+
+			while (line != null) {
+				sb.append(line);
+				sb.append(System.lineSeparator());
+				line = br.readLine();
+			}
+			everything = sb.toString();
+		} finally {
+			br.close();
+		}
+		return everything;
+	}
+
+}
