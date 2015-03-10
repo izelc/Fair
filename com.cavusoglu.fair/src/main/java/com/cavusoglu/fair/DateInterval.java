@@ -40,7 +40,12 @@ public class DateInterval {
 		logger.debug(extractedDate);
 
 		if (dates[0].length() <= 3) {
-			dates[0] = dates[0] + dates[1].replaceAll("\\d", "") + 2015;
+			try {
+				dates[0] = dates[0] + dates[1].replaceAll("\\d", "") + 2015;
+			} catch (ArrayIndexOutOfBoundsException e) {
+                logger.error("Error occured when splitting date");
+				e.printStackTrace();
+			}
 		} else if (!dates[0].contains("2015") && !dates[1].contains("2016")) {
 			dates[0] = dates[0] + 2015;
 		}

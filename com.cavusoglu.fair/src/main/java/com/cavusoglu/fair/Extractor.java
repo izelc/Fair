@@ -29,8 +29,10 @@ public class Extractor {
 		logger.info("Date is extracted " + date + " with css path "
 				+ cssPathForDate);
 
-		DateInterval interval = new DateInterval().getInterval(date,
-				getDateSplitterRegex());
+		DateInterval interval;
+			interval = new DateInterval().getInterval(date,
+					getDateSplitterRegex());
+	
 		logger.info("Date is splitted.StartDate: " + interval.getStartDate()
 				+ "EndDate" + interval.getEndDate());
 		return interval;

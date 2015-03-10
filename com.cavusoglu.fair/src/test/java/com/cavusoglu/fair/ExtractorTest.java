@@ -30,8 +30,7 @@ public class ExtractorTest {
 	@Test
 	public void testExtractFairDate1() throws Exception {
 
-		assertEquals("22 - 25 Ocak 2015", tuyapExtractor.findDate(4));
-		assertEquals("", tuyapExtractor.findDate(2));
+		assertEquals("2015-01-22T00:00:00.000+02:00", tuyapExtractor.findDate(4).getStartDate());
 	}
 
 	@Test
@@ -53,16 +52,7 @@ public class ExtractorTest {
 		assertEquals("ÇUKUROVA KİTAP FUARI", tuyapExtractor.findName(1));
 	}
 
-	@Test
-	public void testExtractDateInterval() throws Exception
-			 {
 
-		ExtractorTuyap mockTuyapExtractor = Mockito.spy(tuyapExtractor);
-		Mockito.doReturn("22 - 25 Mart 2015").when(mockTuyapExtractor)
-				.findDate(Matchers.anyInt());
-		
-
-	}
 	
 
 	/**
