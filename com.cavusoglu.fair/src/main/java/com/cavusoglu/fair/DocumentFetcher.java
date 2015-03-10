@@ -17,14 +17,13 @@ public class DocumentFetcher {
 
 	private Logger logger = Logger.getLogger(getClass());
 	private Document document;
-	private String fixedPart;
+
 
 	public DocumentFetcher() {
 
 	}
 
-	public DocumentFetcher(String siteLink, String fixedPart) {
-		this.fixedPart = fixedPart;
+	public DocumentFetcher(String siteLink) {
 		try {
 			logger.trace("Getting document");
 			document = Jsoup
@@ -39,25 +38,12 @@ public class DocumentFetcher {
 
 	}
 
-	public DocumentFetcher(String siteLink) {
-		try {
-			logger.trace("Getting document");
-			document = Jsoup.connect(siteLink).get();
-		} catch (IOException e) {
-			logger.error("Error occured while getting document from "
-					+ siteLink, e);
-		}
-
-	}
+	
 
 	public Document getDocument() {
 		return document;
 	}
 
-	public Elements getElement() {
-		logger.trace("Getting element stable css part " + fixedPart);
-		Elements stableElement = getDocument().select(fixedPart);
-		return stableElement;
-	}
+	
 
 }

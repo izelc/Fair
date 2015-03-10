@@ -5,18 +5,27 @@ import org.apache.log4j.Logger;
 public class Extractor {
 	private Logger logger = Logger.getLogger(getClass());
 	protected DocumentSearcher documentSearcher;
+	public DocumentSearcher getDocumentSearcher() {
+		return documentSearcher;
+	}
+
+	public void setDocumentSearcher(DocumentSearcher documentSearcher) {
+		this.documentSearcher = documentSearcher;
+	}
+
 	protected DocumentFetcher documentFetcher;
 	protected String cssPathForPlace;
 	protected String cssPathForName;
 	protected String cssPathForDescription;
 	protected String cssPathForDate;
+	protected String cssPathForMain;
 
 	public Extractor() {
 
 	}
 
 	public Extractor(DocumentFetcher documentFetcher) {
-		documentSearcher = new DocumentSearcher(documentFetcher);
+		documentSearcher = new DocumentSearcher(null);
 	}
 
 	public String getDateSplitterRegex() {

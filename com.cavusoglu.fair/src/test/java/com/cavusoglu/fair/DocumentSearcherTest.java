@@ -17,45 +17,19 @@ public class DocumentSearcherTest {
 	@Test
 	public void testExtractElementWithCssPAth() throws Exception {
 		DocumentFetcher mock = Mockito.spy(new DocumentFetcher());
-		Document doc = Jsoup.parse(readFile("ExampleTuyap.html"));
-		Mockito.doReturn(
-				doc.select("body > span > table > tbody > tr > td > table > tbody > tr:nth-child(4) > td > table > tbody > tr:nth-child(2) > td:nth-child(3) > table > tbody "))
-				.when(mock).getElement();
+		StableElementFetcher stableElementFetcher=new StableElementFetcher(mock,"#subpage-content");
+		DocumentSearcher documentSearcher=new DocumentSearcher(stableElementFetcher);
+	
+		Document doc = Jsoup.parse(ReadFile.readFile("exampleAnfas.html"));
+		Mockito.doReturn(doc).when(mock).getDocument();
+		
+		
 		
 	
 
-		String cssPath = "> tr:nth-child(4) > td:nth-child(3) > h5 > b";
-		String date = new DocumentSearcher(mock)
-				.extractElementWithCssPAth(cssPath);
-		assertEquals("22 - 25 Ocak 2015", date);
+		  String cssPath = "> div:nth-child(2) > table > tbody > tr:nth-child(2) > td:nth-child(2)";
+		  assertEquals("01-Nisan-2015 03-Nisan-2015", documentSearcher.extractElementWithCssPAth(cssPath));
 
-	}
-
-	/**
-	 * Reads file from given path
-	 * 
-	 * @param path
-	 *            file path
-	 * @return file as string text
-	 * @throws IOException
-	 */
-	private String readFile(String path) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader(path));
-		String everything;
-		try {
-			StringBuilder sb = new StringBuilder();
-			String line = br.readLine();
-
-			while (line != null) {
-				sb.append(line);
-				sb.append(System.lineSeparator());
-				line = br.readLine();
-			}
-			everything = sb.toString();
-		} finally {
-			br.close();
-		}
-		return everything;
 	}
 
 }

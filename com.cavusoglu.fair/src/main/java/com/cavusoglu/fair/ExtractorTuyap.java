@@ -17,7 +17,7 @@ public class ExtractorTuyap extends Extractor {
 		documentFetcher = new DocumentFetcher(
 				"http://www.tuyap.com.tr/tr/index.php?main=m_fuar-2015&left=l_fuarlar&FuarYili=2015",
 				"body > span > table > tbody > tr > td > table > tbody > tr:nth-child(4) > td > table > tbody > tr:nth-child(2) > td:nth-child(3) > table > tbody");
-		documentSearcher = new DocumentSearcher(documentFetcher);
+		documentSearcher = new DocumentSearcher(null);
 		
 		cssPathForDate = "> tr:nth-child(MYINDEX) > td:nth-child(3) > h5 > b";
 		cssPathForPlace = "> tr:nth-child(MYINDEX) > td:nth-child(3) > b > span";

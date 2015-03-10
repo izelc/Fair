@@ -10,10 +10,11 @@ import org.apache.log4j.Logger;
  */
 public class DocumentSearcher {
 	private Logger logger = Logger.getLogger(getClass());
-	private DocumentFetcher df;
+	private StableElementFetcher stableElementFetcher;
+	private String text;
 
-	public DocumentSearcher(DocumentFetcher df) {
-		this.df = df;
+	public DocumentSearcher(StableElementFetcher sef) {
+		 stableElementFetcher=sef;
 				
 	}
 
@@ -23,11 +24,17 @@ public class DocumentSearcher {
 		logger.trace("getting element with changable css path"
 				+ cssPath);
 		try {
-			return df.getElement().select(cssPath).text();
-		} catch (Exception e) {
+			text = stableElementFetcher.getElement().select(cssPath).text();
+
+		} catch (UnvalidCssPathException e) {
+			e.printStackTrace();
+			System.exit(0);
+		}catch (Exception e) {
 			logger.error("cssPath is not valid.");
 			return null;
 		}
+		
+		return text;
 	}
 
 }

@@ -13,7 +13,7 @@ public class ExtractorMeridyen extends Extractor {
 		documentFetcher = new DocumentFetcher(
 				"http://www.meridyenfair.com/2015-fuar-takvimi/",
 				"#ai1ec-calendar-view > div.ai1ec-agenda-view");
-		documentSearcher = new DocumentSearcher(documentFetcher);
+		documentSearcher = new DocumentSearcher(null);
 	}
 
 	@Override
