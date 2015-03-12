@@ -1,10 +1,11 @@
 package com.cavusoglu.fair;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -30,31 +31,19 @@ public class StableElementFetcherTest {
 	}
 
 	@Test
-	public void testName() throws Exception {
+	public void testException() throws Exception {
 		Exception expectedException = null;
 		DocumentFetcher documentFetcher = new DocumentFetcher(
 				"http://www.izfas.com.tr/");
 		StableElementFetcher stableElementFetcher = new StableElementFetcher(
 				documentFetcher, "Naughty Css");
 		try {
-			Elements element = stableElementFetcher.getElement();
+			stableElementFetcher.getElement();
 		} catch (Exception e) {
 			expectedException = e;
 		}
 
 		assertTrue(expectedException instanceof UnvalidCssPathException);
-	}
-	
-	
-	
-	@Test
-	public void testNam() throws Exception {
-//		ExtractorMeridyen extractorMeridyen = new ExtractorMeridyen();
-//		extractorMeridyen.stableElementFetcher.getElement();
-		
-		DocumentFetcher documentFetcher=new DocumentFetcher("http://www.meridyenfair.com/2015-fuar-takvimi/");
-		StableElementFetcher stf=new StableElementFetcher(documentFetcher,"#ai1ec-calendar-view > div.ai1ec-agenda-view");
-		stf.getElement();
 	}
 
 }

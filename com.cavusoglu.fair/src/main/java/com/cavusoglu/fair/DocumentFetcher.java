@@ -1,11 +1,10 @@
 package com.cavusoglu.fair;
 
 import java.io.IOException;
+
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import com.cavusoglu.fair.DocumentFetcher;
 
 /**
  * @author izel This class is implemented for getting document from given site

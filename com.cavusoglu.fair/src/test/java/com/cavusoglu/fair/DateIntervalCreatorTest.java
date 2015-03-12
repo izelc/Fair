@@ -1,11 +1,10 @@
 package com.cavusoglu.fair;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class DateIntervalCreatorTest {
