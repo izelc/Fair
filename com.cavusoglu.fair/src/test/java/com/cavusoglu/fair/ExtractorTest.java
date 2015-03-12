@@ -1,6 +1,6 @@
 package com.cavusoglu.fair;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,7 +10,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 
 public class ExtractorTest {
@@ -21,7 +20,7 @@ public class ExtractorTest {
 	public void before() throws IOException {
 		DocumentFetcher mock = Mockito.spy(new DocumentFetcher());
 		Document doc = Jsoup.parse(readFile("ExampleTuyap.html"));
-		Mockito.doReturn(doc.select("body > span > table > tbody > tr > td > table > tbody > tr:nth-child(4) > td > table > tbody > tr:nth-child(2) > td:nth-child(3) > table > tbody")).when(mock).getElement();
+		Mockito.doReturn(doc).when(mock).getDocument();
 
 		tuyapExtractor = new ExtractorTuyap(mock);
 
@@ -30,7 +29,8 @@ public class ExtractorTest {
 	@Test
 	public void testExtractFairDate1() throws Exception {
 
-		assertEquals("2015-01-22T00:00:00.000+02:00", tuyapExtractor.findDate(4).getStartDate());
+		assertEquals("2015-01-22T00:00:00.000+02:00", tuyapExtractor
+				.findDate(4).getStartDate());
 	}
 
 	@Test
@@ -48,12 +48,15 @@ public class ExtractorTest {
 	}
 
 	@Test
-	public void testExtractFairName() throws Exception {
+	public void testExtractFairName() throws Exception,
+			NoSuchIndexAtHtmlDocumentException {
 		assertEquals("ÇUKUROVA KİTAP FUARI", tuyapExtractor.findName(1));
 	}
 
-
-	
+	@Test(expected = NoSuchIndexAtHtmlDocumentException.class)
+	public void testName() throws Exception, NoSuchIndexAtHtmlDocumentException {
+		tuyapExtractor.extracFairs(456);
+	}
 
 	/**
 	 * Reads file from given path

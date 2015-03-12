@@ -43,6 +43,15 @@ public class ExtractorOrion extends Extractor {
 
 	}
 
+	public ExtractorOrion(DocumentFetcher df1, DocumentFetcher df2,
+			DocumentFetcher df3) {
+		documents = new ArrayList<Document>();
+		documents.add(df1.getDocument());
+		documents.add(df2.getDocument());
+		documents.add(df3.getDocument());
+
+	}
+
 	@Override
 	public String findName(int i) {
 		String name = documents.get(i).select(matrixCssPAthForAttributes[i][0])
@@ -56,7 +65,7 @@ public class ExtractorOrion extends Extractor {
 		String date = documents.get(i).select(matrixCssPAthForAttributes[i][1])
 				.text();
 		logger.trace("we got fair date from orion fuarcilik: " + date);
-		
+
 		return new DateInterval().getInterval(date, "\\-");
 	}
 
@@ -74,5 +83,4 @@ public class ExtractorOrion extends Extractor {
 		return "Orion Fuarcilik";
 	}
 
-	
 }

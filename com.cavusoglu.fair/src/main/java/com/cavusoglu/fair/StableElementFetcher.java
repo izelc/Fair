@@ -13,8 +13,8 @@ public class StableElementFetcher {
 		this.fixedPart = fixedPart;
 	}
 
-	public StableElementFetcher(DocumentFetcher mock, String fixedPart) {
-		documentFetcher = mock;
+	public StableElementFetcher(DocumentFetcher documentFetcher, String fixedPart) {
+		this.documentFetcher = documentFetcher;
 		this.fixedPart = fixedPart;
 	}
 

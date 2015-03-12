@@ -18,7 +18,7 @@ public class FairCalendarCreator {
 	}
 
 	public FairCalendarCreator(Extractor extractor, int startIndex,
-			 int lastIndex,int indexIncrease) {
+			 int lastIndex,int indexIncrease) throws Exception {
 		this.extractor = extractor;
 		logger.info("Extractor is instantiated.");
 		this.lastIndex = lastIndex;
@@ -28,10 +28,15 @@ public class FairCalendarCreator {
 		fillfairlist();
 	}
 
-	private void fillfairlist() {
+	private void fillfairlist() throws Exception {
 		logger.info("filling calendar");
 		for (int i = startIndex; i <=lastIndex; i += indexIncrease) {
-			fairList.add(extractor.extracFairs(i).getJsonLdObject());
+			try {
+				fairList.add(extractor.extracFairs(i).getJsonLdObject());
+			} catch (NoSuchIndexAtHtmlDocumentException e) {
+                   
+				logger.error("Check index value of css path.");
+			}
 		}
 	}
 	

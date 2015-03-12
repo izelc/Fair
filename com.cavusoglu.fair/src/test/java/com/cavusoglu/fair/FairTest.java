@@ -1,46 +1,25 @@
 package com.cavusoglu.fair;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 public class FairTest {
-//
-//	private TuyapExtractor tuyapExtractor = new TuyapExtractor();
-//	int i = 1;
-//
-//	@Test
-//	public void testGetJsonLdObject() throws Exception, UnidentifiedMonthNameStrikeException {
-//		Fair fair = new Fair(tuyapExtractor.extractFairName(1), tuyapExtractor
-//				.extractDateInterval(1).getStartDate(), tuyapExtractor
-//				.extractDateInterval(1).getStartDate(),
-//				tuyapExtractor.extractFairPlace(1),
-//				tuyapExtractor.extractFairDescription(1));
-//		assertTrue(fair.getJsonLdObject().isJsonObject());
-//	}
-//
-//	TuyapExtractor getTuyapExtractor() {
-//		return tuyapExtractor;
-//	}
-//
-//	void setTuyapExtractor(TuyapExtractor tuyapExtractor) {
-//		this.tuyapExtractor = tuyapExtractor;
-//	}
 
-	// @Test
-	// public void testFair() throws Exception {
-	// Fair fair;
-	// while (!tuyapExtractor.extractFairName(i).equals("")) {
-	//
-	// fair = new Fair(tuyapExtractor.extractFairName(i),
-	// tuyapExtractor.extractDateInterval(i).getStartDate(),
-	// tuyapExtractor.extractDateInterval(i).getEndDate(),
-	// tuyapExtractor.extractFairPlace(i),
-	// tuyapExtractor.extractFairDescription(i));
-	// System.err.println(fair.getJsonLdObject().toString());
-	// i = i + 3;
-	// }
-	//
-	// }
+
+	@Test
+	public void testGetJsonLdObject() throws Exception{
+		 DateInterval interval = new DateInterval().getInterval("01-Nisan-2015 03-Nisan-2015", "\\s+");
+	     Fair fair = new Fair("ANFAŞ CITY EXPO", interval,"ANTALYA EXPO CENTER", "  Şehircilik ve Teknolojileri Fuarı");
+		 
+	     assertTrue(fair.getJsonLdObject().isJsonObject());
+	     assertEquals("\"ANFAŞ CITY EXPO\"",fair.getJsonLdObject().get("name").toString());
+	     assertEquals("\"ANTALYA EXPO CENTER\"",fair.getJsonLdObject().get("place").toString());
+	     assertEquals("\"  Şehircilik ve Teknolojileri Fuarı\"",fair.getJsonLdObject().get("description").toString());
+	     assertEquals("\"2015-04-03T00:00:00.000+03:00\"",fair.getJsonLdObject().get("endDate").toString());
+	     assertEquals("\"2015-04-01T00:00:00.000+03:00\"",fair.getJsonLdObject().get("startDate").toString());
+	}
+
+	
 
 }

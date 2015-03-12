@@ -7,22 +7,23 @@ public class ExtractorCnrExpo extends Extractor {
 	Logger logger = Logger.getLogger(getClass());
 
 	public ExtractorCnrExpo() {
-		documentFetcher = new DocumentFetcher(
+		super(
 				"http://cnrexpo.com/en_fuar_takvimi.aspx",
-				"#aspnetForm > div.sayfa > div.left_content > div > div.takvim_orta");
-		documentSearcher = new DocumentSearcher(null);
+				"#aspnetForm > div.sayfa > div.left_content > div > div.takvim_orta",
+				"> div:nth-child(MYINDEX) > div.takvim_ad",
+				"> div:nth-child(MYINDEX) > div.takvim_tarih",
+				"> div:nth-child(MYINDEX) > div:nth-child(4)", "");
 
-		cssPathForName = "> div:nth-child(MYINDEX) > div.takvim_ad";
-		cssPathForDescription = "> div:nth-child(MYINDEX) > div:nth-child(4)";
-		cssPathForDate = "> div:nth-child(MYINDEX) > div.takvim_tarih";
 	}
 
 	public ExtractorCnrExpo(DocumentFetcher mock) {
-		documentSearcher = new DocumentSearcher(null);
-
-		cssPathForName = "> div:nth-child(MYINDEX) > div.takvim_ad";
-		cssPathForDescription = "> div:nth-child(MYINDEX) > div:nth-child(4)";
-		cssPathForDate = "> div:nth-child(MYINDEX) > div.takvim_tarih";
+		super(
+				mock,
+				"http://cnrexpo.com/en_fuar_takvimi.aspx",
+				"#aspnetForm > div.sayfa > div.left_content > div > div.takvim_orta",
+				"> div:nth-child(MYINDEX) > div.takvim_ad",
+				"> div:nth-child(MYINDEX) > div.takvim_tarih",
+				"> div:nth-child(MYINDEX) > div:nth-child(4)", "");
 	}
 
 	@Override

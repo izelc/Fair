@@ -3,8 +3,20 @@ package com.cavusoglu.fair;
 import org.apache.log4j.Logger;
 
 public class Extractor {
+
 	private Logger logger = Logger.getLogger(getClass());
+
 	protected DocumentSearcher documentSearcher;
+	protected DocumentFetcher documentFetcher;
+	protected StableElementFetcher stableElementFetcher;
+
+	protected String cssPathForPlace;
+	protected String cssPathForName;
+	protected String cssPathForDescription;
+	protected String cssPathForDate;
+	protected String cssPathForMain;
+	protected String siteLink;
+
 	public DocumentSearcher getDocumentSearcher() {
 		return documentSearcher;
 	}
@@ -13,20 +25,55 @@ public class Extractor {
 		this.documentSearcher = documentSearcher;
 	}
 
-	protected DocumentFetcher documentFetcher;
-	protected String cssPathForPlace;
-	protected String cssPathForName;
-	protected String cssPathForDescription;
-	protected String cssPathForDate;
-	protected String cssPathForMain;
+	public Extractor(DocumentFetcher documentFetcher, String siteLink,
+			String cssPathForMain, String cssPathForName,
+			String cssPathForDate, String cssPathForDescription,
+			String cssPathForPlace) {
 
+		this.cssPathForPlace = cssPathForPlace;
+		this.cssPathForName = cssPathForName;
+		this.cssPathForDescription = cssPathForDescription;
+		this.cssPathForDate = cssPathForDate;
+		this.cssPathForMain = cssPathForMain;
+		this.siteLink = siteLink;
+
+		this.documentFetcher = documentFetcher;
+
+		stableElementFetcher = new StableElementFetcher(documentFetcher,
+				cssPathForMain);
+
+		documentSearcher = new DocumentSearcher(stableElementFetcher);
+	}
+
+	public Extractor(String siteLink, String cssPathForMain,
+			String cssPathForName, String cssPathForDate,
+			String cssPathForDescription, String cssPathForPlace) {
+
+		this.cssPathForPlace = cssPathForPlace;
+		this.cssPathForName = cssPathForName;
+		this.cssPathForDescription = cssPathForDescription;
+		this.cssPathForDate = cssPathForDate;
+		this.cssPathForMain = cssPathForMain;
+		this.siteLink = siteLink;
+
+		logger.info("connnecting to site: "+ siteLink);
+		documentFetcher = new DocumentFetcher(siteLink);
+
+		logger.info("Main css part is: "+cssPathForMain);
+		stableElementFetcher = new StableElementFetcher(documentFetcher,cssPathForMain);
+
+		documentSearcher = new DocumentSearcher(stableElementFetcher);
+	}
+	
 	public Extractor() {
-
+		// TODO Auto-generated constructor stub
 	}
-
+	
+	
 	public Extractor(DocumentFetcher documentFetcher) {
-		documentSearcher = new DocumentSearcher(null);
+		// TODO Auto-generated constructor stub
 	}
+	
 
 	public String getDateSplitterRegex() {
 		return "\\-";
@@ -39,9 +86,8 @@ public class Extractor {
 				+ cssPathForDate);
 
 		DateInterval interval;
-			interval = new DateInterval().getInterval(date,
-					getDateSplitterRegex());
-	
+		interval = new DateInterval().getInterval(date, getDateSplitterRegex());
+
 		logger.info("Date is splitted.StartDate: " + interval.getStartDate()
 				+ "EndDate" + interval.getEndDate());
 		return interval;
@@ -53,9 +99,13 @@ public class Extractor {
 
 	}
 
-	public String findName(int i) {
-		return findFairAttribute(i, cssPathForName.replace("MYINDEX", "" + i),
+	public String findName(int i) throws NoSuchIndexAtHtmlDocumentException {
+		String name = findFairAttribute(i, cssPathForName.replace("MYINDEX", "" + i),
 				"Name");
+		if (name.isEmpty()) {
+           throw new NoSuchIndexAtHtmlDocumentException();
+		}
+		return name;
 	}
 
 	public String findDescription(int i) {
@@ -74,7 +124,7 @@ public class Extractor {
 		return attribute;
 	}
 
-	public Fair extracFairs(int i) {
+	public Fair extracFairs(int i) throws Exception, NoSuchIndexAtHtmlDocumentException {
 
 		return new Fair(findName(i), findDate(i), findPlace(i),
 				findDescription(i));

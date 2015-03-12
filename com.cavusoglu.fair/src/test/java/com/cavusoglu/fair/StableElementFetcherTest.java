@@ -44,5 +44,17 @@ public class StableElementFetcherTest {
 
 		assertTrue(expectedException instanceof UnvalidCssPathException);
 	}
+	
+	
+	
+	@Test
+	public void testNam() throws Exception {
+//		ExtractorMeridyen extractorMeridyen = new ExtractorMeridyen();
+//		extractorMeridyen.stableElementFetcher.getElement();
+		
+		DocumentFetcher documentFetcher=new DocumentFetcher("http://www.meridyenfair.com/2015-fuar-takvimi/");
+		StableElementFetcher stf=new StableElementFetcher(documentFetcher,"#ai1ec-calendar-view > div.ai1ec-agenda-view");
+		stf.getElement();
+	}
 
 }

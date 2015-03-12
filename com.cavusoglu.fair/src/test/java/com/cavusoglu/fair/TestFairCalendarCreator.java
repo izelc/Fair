@@ -8,11 +8,11 @@ public class TestFairCalendarCreator {
 @Test
 public void testName() throws Exception {
 	
-	ExtractorIzfas extractorIzfas=new ExtractorIzfas();
-	FairCalendarCreator fairCalendarCreator=new FairCalendarCreator(extractorIzfas, 2, 12, 1);
+	ExtractorOrion extractorOrion=new ExtractorOrion();
+	FairCalendarCreator fairCalendarCreator=new FairCalendarCreator(extractorOrion, 0, 2, 1);
 	
 	
-	for (int i = 2; i < fairCalendarCreator.getFairCalendar().size(); i++) {
+	for (int i = 0; i < fairCalendarCreator.getFairCalendar().size(); i++) {
 		System.out.println(fairCalendarCreator.getFairCalendar().get(i));
 	}
 	
