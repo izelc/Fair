@@ -1,10 +1,6 @@
 package com.cavusoglu.fair;
 
-import org.apache.log4j.Logger;
-
 public class ExtractorCnrExpo extends Extractor {
-
-	Logger logger = Logger.getLogger(getClass());
 
 	public ExtractorCnrExpo() {
 		super(
@@ -30,9 +26,9 @@ public class ExtractorCnrExpo extends Extractor {
 	public DateInterval findDate(int i) {
 
 		String date = findFairAttribute(i,
-				cssPathForDate.replace("MYINDEX", "" + i), "Date");
+				getCssPathForDate().replace("MYINDEX", "" + i), "Date");
 		logger.info("Date is extracted " + date + " with css path "
-				+ cssPathForDate);
+				+ getCssPathForDate());
 		date = date.replace("(", "");
 		date = date.replace(")", "");
 

@@ -4,18 +4,16 @@ import org.apache.log4j.Logger;
 
 public class Extractor {
 
-	private Logger logger = Logger.getLogger(getClass());
+	protected Logger logger = Logger.getLogger(getClass());
 
 	protected DocumentSearcher documentSearcher;
-	protected DocumentFetcher documentFetcher;
-	protected StableElementFetcher stableElementFetcher;
 
-	protected String cssPathForPlace;
-	protected String cssPathForName;
-	protected String cssPathForDescription;
-	protected String cssPathForDate;
-	protected String cssPathForMain;
-	protected String siteLink;
+	private String cssPathForPlace;
+	private String cssPathForName;
+	private String cssPathForDescription;
+	private String cssPathForDate;
+	private String cssPathForMain;
+	private String siteLink;
 
 	public DocumentSearcher getDocumentSearcher() {
 		return documentSearcher;
@@ -30,50 +28,41 @@ public class Extractor {
 			String cssPathForDate, String cssPathForDescription,
 			String cssPathForPlace) {
 
-		this.cssPathForPlace = cssPathForPlace;
-		this.cssPathForName = cssPathForName;
-		this.cssPathForDescription = cssPathForDescription;
-		this.cssPathForDate = cssPathForDate;
-		this.cssPathForMain = cssPathForMain;
-		this.siteLink = siteLink;
+		this.setCssPathForPlace(cssPathForPlace);
+		this.setCssPathForName(cssPathForName);
+		this.setCssPathForDescription(cssPathForDescription);
+		this.setCssPathForDate(cssPathForDate);
+		this.setCssPathForMain(cssPathForMain);
+		this.setSiteLink(siteLink);
 
-		this.documentFetcher = documentFetcher;
 
-		stableElementFetcher = new StableElementFetcher(documentFetcher,
-				cssPathForMain);
-
-		documentSearcher = new DocumentSearcher(stableElementFetcher);
+		documentSearcher = new DocumentSearcher(new StableElementFetcher(
+				documentFetcher, cssPathForMain));
 	}
 
 	public Extractor(String siteLink, String cssPathForMain,
 			String cssPathForName, String cssPathForDate,
 			String cssPathForDescription, String cssPathForPlace) {
 
-		this.cssPathForPlace = cssPathForPlace;
-		this.cssPathForName = cssPathForName;
-		this.cssPathForDescription = cssPathForDescription;
-		this.cssPathForDate = cssPathForDate;
-		this.cssPathForMain = cssPathForMain;
-		this.siteLink = siteLink;
+		this.setCssPathForPlace(cssPathForPlace);
+		this.setCssPathForName(cssPathForName);
+		this.setCssPathForDescription(cssPathForDescription);
+		this.setCssPathForDate(cssPathForDate);
+		this.setCssPathForMain(cssPathForMain);
+		this.setSiteLink(siteLink);
 
-		logger.info("connnecting to site: "+ siteLink);
-		documentFetcher = new DocumentFetcher(siteLink);
+		logger.info("connnecting to site: " + siteLink);
 
-		logger.info("Main css part is: "+cssPathForMain);
-		stableElementFetcher = new StableElementFetcher(documentFetcher,cssPathForMain);
-
-		documentSearcher = new DocumentSearcher(stableElementFetcher);
+		logger.info("Main css part is: " + cssPathForMain);
+		documentSearcher = new DocumentSearcher(new StableElementFetcher(
+				new DocumentFetcher(siteLink), cssPathForMain));
 	}
-	
+
 	public Extractor() {
-		// TODO Auto-generated constructor stub
 	}
-	
-	
+
 	public Extractor(DocumentFetcher documentFetcher) {
-		// TODO Auto-generated constructor stub
 	}
-	
 
 	public String getDateSplitterRegex() {
 		return "\\-";
@@ -81,9 +70,9 @@ public class Extractor {
 
 	public DateInterval findDate(int i) {
 		String date = findFairAttribute(i,
-				cssPathForDate.replace("MYINDEX", "" + i), "Date");
+				getCssPathForDate().replace("MYINDEX", "" + i), "Date");
 		logger.info("Date is extracted " + date + " with css path "
-				+ cssPathForDate);
+				+ getCssPathForDate());
 
 		DateInterval interval;
 		interval = new DateInterval().getInterval(date, getDateSplitterRegex());
@@ -94,23 +83,23 @@ public class Extractor {
 	}
 
 	public String findPlace(int i) {
-		return findFairAttribute(i, cssPathForPlace.replace("MYINDEX", "" + i),
+		return findFairAttribute(i, getCssPathForPlace().replace("MYINDEX", "" + i),
 				"Place");
 
 	}
 
 	public String findName(int i) throws NoSuchIndexAtHtmlDocumentException {
-		String name = findFairAttribute(i, cssPathForName.replace("MYINDEX", "" + i),
-				"Name");
+		String name = findFairAttribute(i,
+				getCssPathForName().replace("MYINDEX", "" + i), "Name");
 		if (name.isEmpty()) {
-           throw new NoSuchIndexAtHtmlDocumentException();
+			throw new NoSuchIndexAtHtmlDocumentException();
 		}
 		return name;
 	}
 
 	public String findDescription(int i) {
 		return findFairAttribute(i,
-				cssPathForDescription.replace("MYINDEX", "" + i), "Description");
+				getCssPathForDescription().replace("MYINDEX", "" + i), "Description");
 	}
 
 	public String findFairAttribute(int i, String cssPath,
@@ -124,11 +113,60 @@ public class Extractor {
 		return attribute;
 	}
 
-	public Fair extracFairs(int i) throws Exception, NoSuchIndexAtHtmlDocumentException {
+	public Fair extracFairs(int i) throws Exception,
+			NoSuchIndexAtHtmlDocumentException {
 
 		return new Fair(findName(i), findDate(i), findPlace(i),
 				findDescription(i));
 
+	}
+
+	protected String getCssPathForPlace() {
+		return cssPathForPlace;
+	}
+
+	protected void setCssPathForPlace(String cssPathForPlace) {
+		this.cssPathForPlace = cssPathForPlace;
+	}
+
+	protected String getCssPathForName() {
+		return cssPathForName;
+	}
+
+	protected void setCssPathForName(String cssPathForName) {
+		this.cssPathForName = cssPathForName;
+	}
+
+	protected String getCssPathForDescription() {
+		return cssPathForDescription;
+	}
+
+	protected void setCssPathForDescription(String cssPathForDescription) {
+		this.cssPathForDescription = cssPathForDescription;
+	}
+
+	protected String getCssPathForDate() {
+		return cssPathForDate;
+	}
+
+	protected void setCssPathForDate(String cssPathForDate) {
+		this.cssPathForDate = cssPathForDate;
+	}
+
+	protected String getCssPathForMain() {
+		return cssPathForMain;
+	}
+
+	protected void setCssPathForMain(String cssPathForMain) {
+		this.cssPathForMain = cssPathForMain;
+	}
+
+	protected String getSiteLink() {
+		return siteLink;
+	}
+
+	protected void setSiteLink(String siteLink) {
+		this.siteLink = siteLink;
 	}
 
 }

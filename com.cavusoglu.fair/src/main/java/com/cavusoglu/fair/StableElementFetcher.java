@@ -7,13 +7,14 @@ public class StableElementFetcher {
 
 	private String fixedPart;
 	DocumentFetcher documentFetcher;
-	Logger logger = Logger.getLogger(getClass());
+	private Logger logger = Logger.getLogger(getClass());
 
 	public StableElementFetcher(String fixedPart) {
 		this.fixedPart = fixedPart;
 	}
 
-	public StableElementFetcher(DocumentFetcher documentFetcher, String fixedPart) {
+	public StableElementFetcher(DocumentFetcher documentFetcher,
+			String fixedPart) {
 		this.documentFetcher = documentFetcher;
 		this.fixedPart = fixedPart;
 	}

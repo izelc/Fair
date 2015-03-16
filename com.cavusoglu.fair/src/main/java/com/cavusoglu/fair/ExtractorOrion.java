@@ -2,12 +2,10 @@ package com.cavusoglu.fair;
 
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
 import org.jsoup.nodes.Document;
 
 public class ExtractorOrion extends Extractor {
 
-	Logger logger = Logger.getLogger(getClass());
 	private ArrayList<Document> documents;
 
 	private String[][] matrixCssPAthForAttributes = {
